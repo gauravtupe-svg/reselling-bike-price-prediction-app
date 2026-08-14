@@ -417,7 +417,7 @@ if st.button("Predict Resale Price"):
         "Model_Variant": Model_Variant,
         "manufacturing_year": manufacturing_year,
         "Owner_Count": Owner_Count,
-        "age_at_purchase": Age_at_Purchase,
+        "Age_at_Purchase": Age_at_Purchase,
     }])
 
     try:
