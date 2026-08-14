@@ -102,7 +102,7 @@ two_wheelers = {
     ],
 
     "Triumph": [
-        "Speed 400", "Scrambler 400X", "Speed T4", "Speed 900", "Trident 660", "Tiger Sport 660", "Tiger Sport 800", "Tiger 900", "Tiger 1200", "Street Triple", "Street Triple R", 
+        "Speed 400", "Scrambler 400X", "Speed T4", "Speed 900", "Trident 660", "Tiger Sport 660", "Tiger Sport 800", "Tiger 900", "Tiger 1200", "Street Triple", "Street Triple R",
         "Street Triple RS", "Bonneville T100", "Bonneville T120", "Scrambler 900", "Rocket 3", "Daytona 660"
     ],
 
