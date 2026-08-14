@@ -421,10 +421,12 @@ if st.button("Predict Resale Price"):
     }])
 
     try:
-        base_prediction = model.predict(input_df)[0]
+        log_prediction = model.predict(input_df)[0]
     except Exception as e:
         st.error(f"Prediction failed — check that input_df columns match the model's training features. Error: {e}")
         st.stop()
+
+    base_prediction = np.expm1(log_prediction)
 
     # Apply the three rule-based adjustments sequentially
     adjusted_price = (
