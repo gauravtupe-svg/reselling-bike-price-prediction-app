@@ -409,6 +409,16 @@ def loan_adjustment(status):
 
 if st.button("Predict Resale Price"):
 
+    # CRITICAL FIX: normalize strings EXACTLY the way the training pipeline did
+    # (model_data['Make'] = ...str.strip().str.title(), same for Category/Model_Variant).
+    # Skipping this step means OneHotEncoder(handle_unknown='ignore') silently treats
+    # every category as "unknown" and zeroes it out -> badly deflated predictions.
+    
+    category_norm = Category.strip().title()
+    make_norm = Make.strip().title()
+    model_variant_norm = " ".join(Model_Variant.strip().split()).title()
+
+
     # Build the input row EXACTLY as the model expects
     # (adjust column names/order to match your training pipeline)
     input_df = pd.DataFrame([{
