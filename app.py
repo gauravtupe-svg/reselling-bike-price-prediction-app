@@ -363,7 +363,7 @@ st.write(f"Selected: **{Make} - {Model_Variant}**")
 
 current_year = datetime.now().year
 manufacturing_year = st.selectbox("Year of Manufacture", list(range(current_year, 1999, -1)))
-"Owner Count" = st.number_input("Number of Owners", min_value=1, step=1)
+Owner_Count = st.number_input("Number of Owners", min_value=1, step=1)
 
 Age_at_Purchase = current_year - manufacturing_year
 st.write(f"Vehicle Age: **{Age_at_Purchase} years**")
@@ -416,7 +416,7 @@ if st.button("Predict Resale Price"):
         "Make": Make,
         "Model_Variant": Model_Variant,
         "manufacturing_year": manufacturing_year,
-        "Owner_Count": "Owner Count",
+        "Owner_Count": Owner_Count,
         "age_at_purchase": Age_at_Purchase,
     }])
 
