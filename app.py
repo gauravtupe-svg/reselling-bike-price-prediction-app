@@ -368,7 +368,7 @@ Owner_Count = st.number_input("Number of Owners", min_value=1, step=1)
 Age_at_Purchase = current_year - manufacturing_year
 st.write(f"Vehicle Age: **{Age_at_Purchase} years**")
 
-# ---- Fields NOT present in the trained model ----
+# Fields NOT present in the trained model
 # Collected separately and used only for a post-prediction adjustment
 st.subheader("Additional Details (used to fine-tune the predicted price)")
 
@@ -376,11 +376,6 @@ Odometer_Value = st.number_input("Odometer Reading (km)", min_value=0, step=100)
 HP_Status = st.selectbox("Hypothecation (HP) Status", ["No Active HP", "Active HP"])
 Loan_Status = st.selectbox("Active Loan Status", ["No Active Loan", "Active Loan"])
 
-# ---------------------------------------------------------
-# WEIGHTAGE / ADJUSTMENT LOGIC
-# These are rule-based multipliers applied AFTER model.predict()
-# Tune these numbers based on domain knowledge / market data
-# ---------------------------------------------------------
 
 def odometer_adjustment(km):
     """Higher km -> higher deduction from predicted price."""
@@ -403,24 +398,18 @@ def loan_adjustment(status):
     """Active loan lowers resale value (buyer risk, NOC pending)."""
     return 0.92 if status == "Active Loan" else 1.00  # -8% if active
 
-# ---------------------------------------------------------
-# PREDICTION
-# ---------------------------------------------------------
+
+# prediction
+
 
 if st.button("Predict Resale Price"):
 
-    # CRITICAL FIX: normalize strings EXACTLY the way the training pipeline did
-    # (model_data['Make'] = ...str.strip().str.title(), same for Category/Model_Variant).
-    # Skipping this step means OneHotEncoder(handle_unknown='ignore') silently treats
-    # every category as "unknown" and zeroes it out -> badly deflated predictions.
-    
     category_norm = Category.strip().title()
     make_norm = Make.strip().title()
     model_variant_norm = " ".join(Model_Variant.strip().split()).title()
 
 
-    # Build the input row EXACTLY as the model expects
-    # (adjust column names/order to match your training pipeline)
+
     input_df = pd.DataFrame([{
         "Category": Category,
         "Make": Make,
@@ -438,12 +427,8 @@ if st.button("Predict Resale Price"):
 
     base_prediction = np.expm1(log_prediction)
 
-    # Apply the three rule-based adjustments sequentially
-    adjusted_price = (
-        base_prediction
-        * odometer_adjustment(Odometer_Value)
-        * hp_adjustment(HP_Status)
-        * loan_adjustment(Loan_Status)
+    # fomrula for adjusted price
+    adjusted_price = ( base_prediction * odometer_adjustment(Odometer_Value) * hp_adjustment(HP_Status) * loan_adjustment(Loan_Status)
     )
 
     st.subheader("Prediction Result")
